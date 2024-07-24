@@ -44,3 +44,55 @@ exports.getCurrentTask = function (currentTime) {
   console.log(
     "Current task: " + getCurrentTask + " - time: " + myDate(currentTime)
   );
+  
+  console.log(
+    "Latest time setup task: " +
+      latestTask +
+      " on " +
+      myDate(list_task[list_task.length - 1])
+  );
+  return getCurrentTask;
+};
+
+exports.getTimeStampFromTaskNumber = function (task) {
+  if (task < 68) return;
+  let firstIndex = 68;
+  let itemIndex = Number(task) - (68 + 1);
+  let beginning = list_task[itemIndex];
+  let ending = list_task[itemIndex + 1];
+  return {
+    beginning,
+    ending,
+    totalDay: (ending - beginning) / 86400,
+  };
+};
+
+exports.cleanTextToCompare = function (textInput) {
+  let result = textInput.trim().toLowerCase();
+  const cong = /[‘’]/g;
+  result = result.replace(cong, `'`);
+
+  const dash = /-/g;
+  result = result.replace(dash, " ");
+  //   match everything except word and space + '
+  const nonString = /[^\w\s']+/gim;
+
+  result = result.replace(nonString, "");
+  const newline = /\r?\n|\r/g;
+  result = result.replace(newline, " ");
+  return result;
+};
+
+exports.vttToPlainText = (textInput) => {
+  if (textInput.length === 0) {
+    return;
+  }
+
+  textInput = textInput.replace(/WEBVTT/g, "");
+  textInput = textInput.replace(/.+ --> .+/g, "");
+  textInput = textInput.replace(/<\/c>/g, "");
+  textInput = textInput.replace(/<.+?>/g, "");
+  textInput = textInput.replace(/^\s*$/g, "");
+  textInput = textInput.replace(/&nbsp;/g, " ");
+  textInput = textInput.replace(/-/g, " ");
+  let lines = textInput.split("\n");
