@@ -146,3 +146,62 @@ exports.allowingString = function (str) {
 
   return false;
 };
+
+
+exports.later = function (delay) {
+  return new Promise(function (resolve) {
+    setTimeout(resolve, delay);
+  });
+};
+
+exports.development = function (user, event) {
+  console.log(event);
+  // only handle the user William Shakehand
+  if (user != "U01C3SA99FW") return true;
+};
+
+exports.onlyHandleChannelbanthongtin = function (channel) {
+  if (typeof channel === "undefined") return;
+  if (channel != "G01BPHWQ023") return true;
+};
+
+exports.onlyHandleChannel2 = function (channel) {
+  if (typeof channel === "undefined") return;
+  if (channel != "C01BY57F29H") return true;
+};
+
+exports.onlyHandleMainThreadEvent = function (thread_ts) {
+  if (typeof thread_ts === "string") return true;
+};
+
+exports.onlyHandlePublicEvent = function (channel_type) {
+  if (typeof channel_type === "undefined") return;
+  // DO NOT HANDLE IF SEND THROUGH IM
+  if (channel_type === "im") return true;
+};
+
+exports.onlyHandleIfIM = function (channel_type) {
+  if (typeof channel_type === "undefined") return;
+  if (channel_type !== "im") return true;
+};
+
+exports.onlyHandleIfNotDeletingEvent = function (subtype) {
+  if (typeof subtype === "undefined") return false;
+  if (subtype === "message_deleted") return true;
+};
+
+exports.onlyHandleIfNotBot = function (user) {
+  //user Vietspeak bot, KIWI -> do not handle
+  if (user == "U01EVJFP0U8" || user == "U01HEMMPVK2") return true;
+};
+
+exports.onlyHandleIfIM = function (channel_type) {
+  if (typeof channel_type === "im") return;
+  if (channel_type !== "im") return true;
+};
+
+exports.getRandomInt = function (min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+};
