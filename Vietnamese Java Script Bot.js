@@ -96,3 +96,53 @@ exports.vttToPlainText = (textInput) => {
   textInput = textInput.replace(/&nbsp;/g, " ");
   textInput = textInput.replace(/-/g, " ");
   let lines = textInput.split("\n");
+
+  
+  lines.splice(0, 2);
+  lines = lines.map((line) => line.trim());
+  lines = lines.filter((line) => line.length > 0);
+  lines = lines.filter((line, index, lines) => line !== lines[index + 1]);
+  return lines.join(" ");
+};
+
+exports.stringToSlug = function (str) {
+  // remove accents
+  var from =
+      "àáãảạăằắẳẵặâầấẩẫậèéẻẽẹêềếểễệđùúủũụưừứửữựòóỏõọôồốổỗộơờớởỡợìíỉĩịäëïîöüûñçýỳỹỵỷ",
+    to =
+      "aaaaaaaaaaaaaaaaaeeeeeeeeeeeduuuuuuuuuuuoooooooooooooooooiiiiiaeiiouuncyyyyy";
+  for (var i = 0, l = from.length; i < l; i++) {
+    str = str.replace(RegExp(from[i], "gi"), to[i]);
+  }
+
+  str = str
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9\-]/g, "_")
+    .replace(/-+/g, "_");
+
+  return str;
+};
+
+exports.isVietnamese = function (str) {
+  str = str.toLowerCase().trim();
+  let vietnamesetone =
+    "àáãảạăằắẳẵặâầấẩẫậèéẻẽẹêềếểễệđùúủũụưừứửữựòóỏõọôồốổỗộơờớởỡợìíỉĩịäëïîöüûñçýỳỹỵỷ";
+  for (let i = 0; i < str.length; i++) {
+    for (let j = 0; j < vietnamesetone.length; j++) {
+      if (str[i] == vietnamesetone[j]) {
+        return true;
+        break;
+      }
+    }
+  }
+  return false;
+};
+
+exports.allowingString = function (str) {
+  if (/^[a-zA-Z0-9_-]+$/.test(str)) {
+    return true;
+  }
+
+  return false;
+};
