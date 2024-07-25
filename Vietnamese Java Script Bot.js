@@ -205,3 +205,32 @@ exports.getRandomInt = function (min, max) {
   max = Math.floor(max);
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
+
+
+exports.randomIndex = function (max) {
+  return Math.floor(Math.random() * max);
+};
+
+exports.onlyHandleIfUploadFile = function (files) {
+  if (typeof files === "undefined") return true;
+};
+
+exports.getTheLastDayOfTheMonth = function () {
+  const currentDate = new Date();
+  let currentYear = currentDate.getFullYear();
+  let currentMonth = currentDate.getMonth() + 1;
+  return new Date(currentYear, currentMonth, 0).getDate();
+};
+
+exports.allowSingleKeyWords = function (inputText = "", list = []) {
+  if (inputText.length === 0) return true;
+  inputText = inputText.trim().toLowerCase();
+  inputText = inputText.split(" ");
+  if (inputText.length > 1) return true;
+  inputText = inputText[0];
+  if (list.length === 0) return true;
+  if (!list.includes(inputText)) return true;
+};
+
+
+
